@@ -1,78 +1,62 @@
-import { useQuery } from '@tanstack/react-query';
-import { ColumnDef } from '@tanstack/react-table';
 import * as React from 'react';
-import { FiEye } from 'react-icons/fi';
 
-import { mockQuery } from '@/lib/axios-mock';
-import { buildPaginatedTableURL } from '@/lib/table';
-import useRenderCount from '@/hooks/useRenderCount';
-import useServerTable from '@/hooks/useServerTable';
-
-import IconButton from '@/components/buttons/IconButton';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
-import PaginatedTable from '@/components/table/PaginatedTable';
-import ServerTable from '@/components/table/ServerTable';
 import Typography from '@/components/typography/Typography';
 
-import { User } from '@/pages/api/mock/users.api';
-import CountryFilterPopup from '@/pages/sandbox/components/CountryFilterPopup';
-
-import { ApiResponse, PaginatedApiResponse } from '@/types/api';
-
 export default function TablePage() {
-  const renderCount = useRenderCount();
+  // const renderCount = useRenderCount();
 
   //#region  //*=========== Table Definition ===========
-  const { tableState, setTableState } = useServerTable<User>();
+  // const { tableState, setTableState } = useServerTable<User>();
 
-  const columns: ColumnDef<User>[] = [
-    {
-      accessorKey: 'name',
-      header: 'Role',
-    },
-    {
-      accessorKey: 'email',
-      header: 'Email',
-    },
-    {
-      accessorKey: 'country',
-      header: 'Country',
-    },
-    {
-      id: 'actions',
-      header: 'Action',
-      cell: () => <IconButton variant='outline' icon={FiEye} />,
-    },
-  ];
+  // const columns: ColumnDef<User>[] = [
+  //   {
+  //     accessorKey: 'name',
+  //     header: 'Role',
+  //   },
+  //   {
+  //     accessorKey: 'email',
+  //     header: 'Email',
+  //   },
+  //   {
+  //     accessorKey: 'country',
+  //     header: 'Country',
+  //   },
+  //   {
+  //     id: 'actions',
+  //     header: 'Action',
+  //     cell: () => <IconButton variant='outline' icon={FiEye} />,
+  //   },
+  // ];
   //#endregion  //*======== Table Definition ===========
 
   //#region  //*=========== Fetch Data ===========
-  const [countryFilter, setCountryFilter] = React.useState<string[]>([]);
+  // const [countryFilter, setCountryFilter] = React.useState<string[]>([]);
 
-  const url = buildPaginatedTableURL({
-    baseUrl: '/users',
-    tableState,
-    additionalParam: {
-      country: countryFilter,
-    },
-  });
+  // const url = buildPaginatedTableURL({
+  //   baseUrl: '/users',
+  //   tableState,
+  //   additionalParam: {
+  //     country: countryFilter,
+  //   },
+  // });
 
-  const { data: queryData } = useQuery<PaginatedApiResponse<User[]>, Error>(
-    [url],
-    mockQuery,
-    {
-      keepPreviousData: true,
-    }
-  );
+  // const { data: queryData } = useQuery<PaginatedApiResponse<User[]>, Error>(
+  //   [url],
+  //   mockQuery,
+  //   {
+  //     keepPreviousData: true,
+  //   }
+  // );
 
-  const { data: unpaginatedData } = useQuery<ApiResponse<User[]>, Error>(
-    ['/users'],
-    mockQuery,
-    {
-      keepPreviousData: true,
-    }
-  );
+  // const { data: unpaginatedData } = useQuery<ApiResponse<User[]>, Error>(
+  //   ['/users'],
+  //   mockQuery,
+  //   {
+  //     keepPreviousData: true,
+  //   }
+  // );
   //#endregion  //*======== Fetch Data ===========
 
   return (
@@ -94,10 +78,10 @@ export default function TablePage() {
               server.
             </Typography>
             <pre>
-              {JSON.stringify({ renderCount, tableState, url }, null, 2)}
+              {/* {JSON.stringify({ renderCount, tableState, url }, null, 2)} */}
             </pre>
 
-            <ServerTable
+            {/* <ServerTable
               columns={columns}
               data={queryData?.data ?? []}
               meta={queryData?.meta}
@@ -108,7 +92,7 @@ export default function TablePage() {
               setTableState={setTableState}
               className='mt-8'
               withFilter
-            />
+            /> */}
 
             <Typography as='h2' variant='h2' className='mt-8'>
               Paginated Table
@@ -116,12 +100,12 @@ export default function TablePage() {
             <Typography variant='b2'>
               Server returned all the data then paginated on the client.
             </Typography>
-
+            {/* 
             <PaginatedTable
               columns={columns}
               data={unpaginatedData?.data ?? []}
               withFilter
-            />
+            /> */}
           </div>
         </section>
       </main>
