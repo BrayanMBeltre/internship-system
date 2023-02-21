@@ -13,14 +13,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   //#endregion  //*======== Store ===========
 
   return (
-    <div>
-      {children}
-      <BaseDialog
-        onClose={handleClose}
-        onSubmit={handleSubmit}
-        open={open}
-        options={state}
-      />
+    <div className='min-h-screen bg-dark text-white'>
+      <div className='mx-auto flex max-w-xs flex-col'>
+        {children}
+        <BaseDialog
+          onClose={handleClose}
+          onSubmit={handleSubmit}
+          open={open}
+          options={state}
+        />
+      </div>
     </div>
   );
 }

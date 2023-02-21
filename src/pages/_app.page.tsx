@@ -1,3 +1,5 @@
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { SessionContextProvider } from '@supabase/auth-helpers-react';
 import {
   QueryClient,
   QueryClientProvider,
@@ -6,6 +8,7 @@ import {
 import { AppProps } from 'next/app';
 import Router from 'next/router';
 import nProgress from 'nprogress';
+import { useState } from 'react';
 
 import '@/styles/nprogress.css';
 import '@/styles/globals.css';
@@ -32,13 +35,20 @@ const queryClient = new QueryClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <div>
-        <DismissableToast />
-        <Component {...pageProps} />
-      </div>
-    </QueryClientProvider>
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    >
+      <QueryClientProvider client={queryClient}>
+        <div>
+          <DismissableToast />
+          <Component {...pageProps} />
+        </div>
+      </QueryClientProvider>
+    </SessionContextProvider>
   );
 }
 

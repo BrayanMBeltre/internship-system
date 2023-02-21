@@ -1,133 +1,128 @@
 import * as React from 'react';
-import { GiExplosionRays } from 'react-icons/gi';
+import { FormProvider, useForm } from 'react-hook-form';
+import {
+  FiClock,
+  FiFacebook,
+  FiFilter,
+  FiMapPin,
+  FiUser,
+} from 'react-icons/fi';
+import { HiOutlineSearch } from 'react-icons/hi';
 
+import Input from '@/components/forms/Input';
 import Layout from '@/components/layout/Layout';
-import ArrowLink from '@/components/links/ArrowLink';
-import ButtonLink from '@/components/links/ButtonLink';
-import UnderlineLink from '@/components/links/UnderlineLink';
 import Seo from '@/components/Seo';
 import Typography from '@/components/typography/Typography';
 
+const tags = ['Discover', 'Saved', 'Applied', 'Closed', 'Discarded'];
+
+const cardData = {
+  logo: 'https://s3-alpha.figma.com/profile/5bbe15ed-bea9-4787-904b-e96edb8c2f9c',
+  title: 'Sr. UX Designer',
+  company: 'Google',
+  badges: [
+    {
+      icon: <FiMapPin />,
+      title: 'New York',
+    },
+  ],
+  except:
+    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi distinctio quisquam ducimus aliquid libero sit animi. Quia iste provident rem commodi excepturi ratione, explicabo culpa eveniet libero porro, nihil dicta?',
+  date: new Date(),
+  price: '$50k/mo',
+};
+
+type FilterForm = {
+  name: string;
+};
+
 export default function HomePage() {
+  // const session = useSession();
+  // const supabaseClient = useSupabaseClient();
+  const methods = useForm<FilterForm>({
+    mode: 'onTouched',
+  });
+
   return (
     <Layout>
-      {/* <Seo templateTitle='Home' /> */}
       <Seo />
 
+      <header className='flex items-center justify-between pt-4'>
+        <Typography color='light' variant='h3'>
+          Sign in
+        </Typography>
+        <FiUser className='' />
+      </header>
+
       <main>
-        <section className='bg-white'>
-          <div className='layout relative flex min-h-screen flex-col items-center justify-center py-12 text-center'>
-            <GiExplosionRays className='text-6xl text-yellow-400' />
+        <section className=''>
+          <Typography color='light' variant='h1' className='pt-8'>
+            Find interships
+          </Typography>
 
-            <Typography as='h1' variant='j1' className='mt-2'>
-              Aether Design System
-            </Typography>
-            <Typography variant='b3' color='tertiary'>
-              Inspired by{' '}
-              <UnderlineLink href='https://moon.io'>moon.io</UnderlineLink>,
-              adjusted to our needs
-            </Typography>
-            <Typography variant='b3' className='mt-6' color='secondary'>
-              <ArrowLink href='https://github.com/theodorusclarence/aether-design-system'>
-                See the repository
-              </ArrowLink>
-            </Typography>
+          <ul className='flex gap-4 overflow-x-auto pb-2 pt-4'>
+            {tags.map((tag) => (
+              <li key={tag}>
+                <button className='rounded-full bg-light px-3 py-1 font-medium text-dark'>
+                  {tag}
+                </button>
+              </li>
+            ))}
+          </ul>
 
-            <div className='mt-6'>
-              <Typography as='h2' variant='h6'>
-                Sandbox:
-              </Typography>
-              <div className='mt-2 flex flex-wrap justify-center gap-2'>
-                {sandbox.map(({ title, route }) => (
-                  <ButtonLink key={route} href={route} variant='outline'>
-                    {title}
-                  </ButtonLink>
-                ))}
+          <FormProvider {...methods}>
+            <form className='mt-4 flex items-end gap-2'>
+              <Input
+                containerClassName='text-dark'
+                id='search'
+                label=''
+                placeholder='Search something...'
+                leftIcon={HiOutlineSearch}
+              />
+
+              <div className='flex h-[36px] w-[36px] items-center justify-center rounded-lg bg-primary-600'>
+                <FiFilter />
+              </div>
+            </form>
+          </FormProvider>
+
+          <div className='mt-4 overflow-hidden rounded-3xl bg-primary-700 p-4'>
+            <div className='flex items-center gap-2'>
+              <div className='rounded-xl bg-dark p-2'>
+                <FiFacebook className='h-[40px] w-[40px]' />
+              </div>
+              <div>
+                <h3>{cardData.title}</h3>
+                <p>{cardData.company}</p>
               </div>
             </div>
 
-            <footer className='absolute bottom-2 text-gray-700'>
-              © {new Date().getFullYear()} By{' '}
-              <UnderlineLink href='https://theodorusclarence.com?ref=aether-design-system'>
-                Clarence
-              </UnderlineLink>
-              {', '}
-              <UnderlineLink href='https://rizqitsani.com?ref=aether-design-system'>
-                Rizqi
-              </UnderlineLink>
-              {', '}
-              <UnderlineLink href='https://github.com/winatungmiharja?ref=aether-design-system'>
-                Wina
-              </UnderlineLink>
-            </footer>
+            <ul className='pt-4'>
+              {cardData.badges.map((badge) => (
+                <li key={badge.title}>
+                  <button className='flex items-center gap-1 rounded-xl border border-primary-400 bg-primary-500 px-2 py-1 '>
+                    {badge.icon}
+                    <p>{badge.title}</p>
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            <div className='pt-4'>
+              <p className=' line-clamp-2'>{cardData.except}</p>
+              <span className='underline'>Read More</span>
+            </div>
+
+            <div className='-mx-4 -mb-4 mt-4 flex justify-between bg-white px-4 py-4 text-dark '>
+              <div className='flex items-center gap-2 font-semibold'>
+                <FiClock />
+                <p>{cardData.date.toLocaleDateString()}</p>
+              </div>
+              <Typography variant='h4'>{cardData.price}</Typography>
+            </div>
           </div>
         </section>
       </main>
     </Layout>
   );
 }
-
-//#region  //*=========== Sandbox ===========
-const sandbox = [
-  {
-    title: 'Typography',
-    route: '/sandbox/typography',
-  },
-  {
-    title: 'Colors',
-    route: '/sandbox/colors',
-  },
-  {
-    title: 'Form',
-    route: '/sandbox/form',
-  },
-  {
-    title: 'Text Link & Button',
-    route: '/sandbox/text-button',
-  },
-  {
-    title: 'Button',
-    route: '/sandbox/button',
-  },
-  {
-    title: 'Breadcrumb',
-    route: '/sandbox/breadcrumb',
-  },
-  {
-    title: 'Icon Button',
-    route: '/sandbox/icon-button',
-  },
-  {
-    title: 'React Query & Toast',
-    route: '/sandbox/toast-rq',
-  },
-  {
-    title: 'Modal',
-    route: '/sandbox/modal',
-  },
-  {
-    title: 'Dialog',
-    route: '/sandbox/dialog',
-  },
-  {
-    title: 'Table',
-    route: '/sandbox/table',
-  },
-  {
-    title: 'Tooltip',
-    route: '/sandbox/tooltip',
-  },
-  {
-    title: 'Mac Card',
-    route: '/sandbox/mac-cards',
-  },
-  {
-    title: 'Popover',
-    route: '/sandbox/popover',
-  },
-  {
-    title: 'Banner',
-    route: '/sandbox/banner',
-  },
-];
-//#endregion  //*======== Sandbox ===========
