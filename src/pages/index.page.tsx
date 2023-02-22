@@ -1,126 +1,87 @@
+import Link from 'next/link';
 import * as React from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import {
-  FiClock,
-  FiFacebook,
-  FiFilter,
-  FiMapPin,
-  FiUser,
-} from 'react-icons/fi';
-import { HiOutlineSearch } from 'react-icons/hi';
 
-import Input from '@/components/forms/Input';
+import Header from '@/components/layout/Header';
 import Layout from '@/components/layout/Layout';
+import NextImage from '@/components/NextImage';
 import Seo from '@/components/Seo';
-import Typography from '@/components/typography/Typography';
 
 const tags = ['Discover', 'Saved', 'Applied', 'Closed', 'Discarded'];
 
-const cardData = {
-  logo: 'https://s3-alpha.figma.com/profile/5bbe15ed-bea9-4787-904b-e96edb8c2f9c',
-  title: 'Sr. UX Designer',
-  company: 'Google',
-  badges: [
-    {
-      icon: <FiMapPin />,
-      title: 'New York',
-    },
-  ],
-  except:
-    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi distinctio quisquam ducimus aliquid libero sit animi. Quia iste provident rem commodi excepturi ratione, explicabo culpa eveniet libero porro, nihil dicta?',
-  date: new Date(),
-  price: '$50k/mo',
-};
-
-type FilterForm = {
-  name: string;
-};
-
 export default function HomePage() {
-  // const session = useSession();
-  // const supabaseClient = useSupabaseClient();
-  const methods = useForm<FilterForm>({
-    mode: 'onTouched',
-  });
-
   return (
     <Layout>
       <Seo />
 
-      <header className='flex items-center justify-between pt-4'>
-        <Typography color='light' variant='h3'>
-          Sign in
-        </Typography>
-        <FiUser className='' />
-      </header>
+      <Header />
 
       <main>
-        <section className=''>
-          <Typography color='light' variant='h1' className='pt-8'>
+        <section className='layout'>
+          {/* <Typography color='light' variant='h1' className='pt-8'>
             Find interships
-          </Typography>
+          </Typography> */}
 
           <ul className='flex gap-4 overflow-x-auto pb-2 pt-4'>
             {tags.map((tag) => (
               <li key={tag}>
-                <button className='rounded-full bg-light px-3 py-1 font-medium text-dark'>
+                <button className='badge-primary badge py-4 px-6 '>
                   {tag}
                 </button>
               </li>
             ))}
           </ul>
 
-          <FormProvider {...methods}>
-            <form className='mt-4 flex items-end gap-2'>
-              <Input
-                containerClassName='text-dark'
-                id='search'
-                label=''
-                placeholder='Search something...'
-                leftIcon={HiOutlineSearch}
+          <div className='form-control mt-4 '>
+            <div className='input-group'>
+              <input
+                type='text'
+                placeholder='Search…'
+                className='input-bordered input w-full'
               />
-
-              <div className='flex h-[36px] w-[36px] items-center justify-center rounded-lg bg-primary-600'>
-                <FiFilter />
-              </div>
-            </form>
-          </FormProvider>
-
-          <div className='mt-4 overflow-hidden rounded-3xl bg-primary-700 p-4'>
-            <div className='flex items-center gap-2'>
-              <div className='rounded-xl bg-dark p-2'>
-                <FiFacebook className='h-[40px] w-[40px]' />
-              </div>
-              <div>
-                <h3>{cardData.title}</h3>
-                <p>{cardData.company}</p>
-              </div>
-            </div>
-
-            <ul className='pt-4'>
-              {cardData.badges.map((badge) => (
-                <li key={badge.title}>
-                  <button className='flex items-center gap-1 rounded-xl border border-primary-400 bg-primary-500 px-2 py-1 '>
-                    {badge.icon}
-                    <p>{badge.title}</p>
-                  </button>
-                </li>
-              ))}
-            </ul>
-
-            <div className='pt-4'>
-              <p className=' line-clamp-2'>{cardData.except}</p>
-              <span className='underline'>Read More</span>
-            </div>
-
-            <div className='-mx-4 -mb-4 mt-4 flex justify-between bg-white px-4 py-4 text-dark '>
-              <div className='flex items-center gap-2 font-semibold'>
-                <FiClock />
-                <p>{cardData.date.toLocaleDateString()}</p>
-              </div>
-              <Typography variant='h4'>{cardData.price}</Typography>
+              <button className='btn-square btn'>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='h-6 w-6'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                  />
+                </svg>
+              </button>
             </div>
           </div>
+
+          <ul className='mt-4 grid grid-cols-1'>
+            <li>
+              <Link href='/offers/1'>
+                <div className='card bg-base-100 shadow-xl'>
+                  <NextImage
+                    className='relative h-[267px]'
+                    fill
+                    src='https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg'
+                    alt='Shoes'
+                  />
+                  <div className='card-body'>
+                    <h2 className='card-title'>
+                      Shoes!
+                      <div className='badge-secondary badge'>NEW</div>
+                    </h2>
+                    <p>If a dog chews shoes whose shoes does he choose?</p>
+                    <div className='card-actions justify-end'>
+                      <div className='badge-outline badge'>Fashion</div>
+                      <div className='badge-outline badge'>Products</div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </li>
+          </ul>
         </section>
       </main>
     </Layout>
